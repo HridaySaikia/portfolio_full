@@ -8,16 +8,13 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import BlurBlob from "@/components/BlurBlob";
 
-// ✅ Fetch data on the server (correct way)
+// ✅ Correct server-side fetch
 async function getProfile() {
   const res = await fetch('/api/profile', {
-    next: { revalidate: 60 }, // ISR
+    next: { revalidate: 60 },
   });
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch profile');
-  }
-
+  if (!res.ok) throw new Error("Failed to fetch profile");
   return res.json();
 }
 
@@ -36,7 +33,7 @@ export default async function Home() {
       <div className="relative pt-20">
         <main className="min-h-screen bg-transparent text-white px-4 md:px-12">
           <Navbar />
-          <Hero profile={profile} /> {/* ✅ Pass pre-fetched data */}
+          <Hero profile={profile} />
           <Skills />
           <Projects />
           <Education />
