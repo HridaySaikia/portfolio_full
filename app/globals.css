@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-900 text-white;
+  font-family: 'Inter', sans-serif;
+}
+html{
+    scroll-behavior: smooth; 
+}
+@layer utilities {
+    .clip-path-custom {
+      clip-path: polygon(0 0, 100% 0, 100% 98%, 75% 95%, 0 100%);
+    }
+  }
+.bg-skills-gradient {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+}
+
+.clip-path-custom {
+  clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+}
