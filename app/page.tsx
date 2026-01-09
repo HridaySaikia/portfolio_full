@@ -9,14 +9,14 @@ import Experience from "@/components/Experience";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import BlurBlob from "@/components/BlurBlob";
-import { getProfile } from "@/lib/getProfile";
+import { getProfileFromDB } from "@/lib/profile.service";
 
 export default async function Home() {
-  const profile = await getProfile();
+  const profile = await getProfileFromDB();
 
   return (
     <div className="bg-[#050414]">
-      {/* unchanged UI */}
+      {/* UI unchanged */}
     </div>
   );
 }
