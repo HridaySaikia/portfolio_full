@@ -1,8 +1,5 @@
 import { NextResponse } from "next/server";
-import {
-  getProfileFromDB,
-  upsertProfile,
-} from "@/lib/profile.service";
+import { getProfileFromDB, upsertProfile } from "@/lib/getProfile";
 
 export async function GET() {
   const profile = await getProfileFromDB();
