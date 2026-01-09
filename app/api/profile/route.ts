@@ -1,24 +1,16 @@
-import { connectDB } from "@/lib/db";
-import { Profile } from "@/lib/models/Profile";
 import { NextResponse } from "next/server";
+import {
+  getProfileFromDB,
+  upsertProfile,
+} from "@/lib/profile.service";
 
 export async function GET() {
-  await connectDB();
-  const profile = await Profile.findOne();
+  const profile = await getProfileFromDB();
   return NextResponse.json(profile);
 }
 
 export async function POST(req: Request) {
-  await connectDB();
   const body = await req.json();
-
-  const profile = await Profile.findOneAndUpdate(
-    {},         // match any document
-    body,       // update with new data
-    { upsert: true, new: true } // create if not exists, return updated doc
-  );
-  console.log("Profile updated:", profile);
-
+  const profile = await upsertProfile(body);
   return NextResponse.json(profile);
 }
-
