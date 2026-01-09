@@ -10,13 +10,17 @@ import BlurBlob from "@/components/BlurBlob";
 
 // ✅ Fetch data on the server
 async function getProfile() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/profile`, {
-    // ✅ Enable caching with ISR (revalidate every 60 seconds)
+  const res = await fetch("/api/profile", {
     next: { revalidate: 60 },
   });
-  if (!res.ok) throw new Error("Failed to fetch profile");
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch profile");
+  }
+
   return res.json();
 }
+
 
 export default async function Home() {
   const profile = await getProfile();
