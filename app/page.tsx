@@ -9,7 +9,7 @@ import Experience from "@/components/Experience";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import BlurBlob from "@/components/BlurBlob";
-import { getProfileFromDB } from "@/lib/profile.service";
+import { getProfileFromDB } from "@/lib/getProfile";
 
 export default async function Home() {
   const profile = await getProfileFromDB();
