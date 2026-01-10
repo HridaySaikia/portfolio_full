@@ -1,13 +1,14 @@
+// app/api/profile/route.ts
+import { connectDB } from "@/lib/db";
+import { Profile } from "@/lib/models/Profile";
 import { NextResponse } from "next/server";
-import { getProfileFromDB, upsertProfile } from "@/lib/getProfile";
 
 export async function GET() {
-  const profile = await getProfileFromDB();
-  return NextResponse.json(profile);
-}
-
-export async function POST(req: Request) {
-  const body = await req.json();
-  const profile = await upsertProfile(body);
-  return NextResponse.json(profile);
+  try {
+    await connectDB();
+    const profile = await Profile.findOne();
+    return NextResponse.json(profile);
+  } catch (e) {
+    return NextResponse.json(null, { status: 500 });
+  }
 }
