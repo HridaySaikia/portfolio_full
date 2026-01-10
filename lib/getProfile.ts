@@ -2,18 +2,28 @@ import { connectDB } from "@/lib/db";
 import { Profile } from "@/lib/models/Profile";
 
 export async function getProfileFromDB() {
-  await connectDB();
-  const profile = await Profile.findOne().lean();
-  return JSON.parse(JSON.stringify(profile));
+  try {
+    await connectDB();
+    const profile = await Profile.findOne().lean();
+    return profile ? JSON.parse(JSON.stringify(profile)) : null;
+  } catch (error) {
+    console.error("getProfileFromDB error:", error);
+    return null; // 🔥 prevents crash
+  }
 }
 
 export async function upsertProfile(data: any) {
-  await connectDB();
-  const profile = await Profile.findOneAndUpdate(
-    {},
-    data,
-    { upsert: true, new: true }
-  ).lean();
+  try {
+    await connectDB();
+    const profile = await Profile.findOneAndUpdate(
+      {},
+      data,
+      { upsert: true, new: true }
+    ).lean();
 
-  return JSON.parse(JSON.stringify(profile));
+    return profile ? JSON.parse(JSON.stringify(profile)) : null;
+  } catch (error) {
+    console.error("upsertProfile error:", error);
+    return null;
+  }
 }
