@@ -2,24 +2,16 @@ import { NextResponse } from "next/server";
 import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
 import { Readable } from "stream";
 
-// Cloudinary config (replace with env vars)
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
   api_key: process.env.CLOUDINARY_API_KEY!,
   api_secret: process.env.CLOUDINARY_API_SECRET!,
 });
 
-// Disable body parsing
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function POST(req: Request) {
   const formData = await req.formData();
   const file = formData.get("file") as File;
-  const name = formData.get("name") as string; // e.g., "profile" or "resume"
+  const name = formData.get("name") as string;
 
   if (!file || !name) {
     return NextResponse.json({ error: "Missing file or name" }, { status: 400 });
@@ -29,7 +21,6 @@ export async function POST(req: Request) {
   const buffer = Buffer.from(bytes);
   const stream = Readable.from(buffer);
 
-  // Use a unique public_id to avoid accidental overwrite and caching issues
   const uniquePublicId = `${name}-${Date.now()}`;
 
   const uploadPromise = (): Promise<UploadApiResponse> =>
@@ -42,13 +33,8 @@ export async function POST(req: Request) {
           resource_type: "auto",
         },
         (error, result) => {
-          if (error) {
-            const e = error as unknown;
-            const msg = typeof (e as { message?: unknown }).message === 'string'
-              ? (e as { message?: string }).message
-              : String(e);
-            reject(new Error(msg));
-          } else if (result) resolve(result);
+          if (error) reject(error);
+          else if (result) resolve(result);
           else reject(new Error("Unknown Cloudinary error"));
         }
       );
@@ -64,14 +50,9 @@ export async function POST(req: Request) {
       url: result.secure_url,
       public_id: result.public_id,
     });
-  } catch (err) {
-    const error = err as UploadApiErrorResponse | Error;
-
+  } catch (error) {
     return NextResponse.json(
-      {
-        error: "Cloudinary upload failed",
-        details: "message" in error ? error.message : "Unknown error",
-      },
+      { error: "Cloudinary upload failed" },
       { status: 500 }
     );
   }
