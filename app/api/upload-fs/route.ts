@@ -3,11 +3,11 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 // Disable Next.js default body parsing
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+// export const config = {
+//   api: {
+//     bodyParser: false,
+//   },
+// };
 
 // Note: this route uses the simpler Request.formData() approach in most handlers.
 // The formidable-based parser was removed because it was unused and caused lint errors.
