@@ -30,8 +30,8 @@ export const authOptions: AuthOptions = {
   session: {
     strategy: "jwt",
   },
+  debug: true, // 👈 ADD THIS
 };
 
-// ✅ Export both the handler and authOptions
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST};
+export { handler as GET, handler as POST };
