@@ -108,7 +108,7 @@ export default function Hero({ profile }: { readonly profile: Profile | null }) 
                 src={
                   profile?.profilePic?.trim()
                     ? profile.profilePic
-                    : "/profile.png"
+                    : "/profileme.jpg"
                 }
                 alt={profile?.name || "Hridayananda Saikia"}
                 fill
